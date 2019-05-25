@@ -1,0 +1,35 @@
+{
+  "name": "@ignitial/iio-services",
+  "version": "1.2.2",
+  "description": "Ignitial.io microservices",
+  "main": "index.js",
+  "repository": "git@gitlab.com:ignitial/iio-service.git",
+  "author": "Victor Andritoiu <devandrito@gmail.com>",
+  "keywords": [
+    "microservice",
+    "service discovery",
+    "api-gateway"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint --ext .js lib",
+    "docker:redis": "docker-compose up -d redis",
+    "test:connectors": "npm run docker:redis && node test/test_connectors.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect": "^3.6.6",
+    "connect-rest": "^3.0.29",
+    "cpu-stats": "^1.0.0",
+    "ioredis": "^4.9.0",
+    "serve-static": "^1.13.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}
