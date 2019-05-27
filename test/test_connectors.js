@@ -24,7 +24,7 @@ try {
   console.log(chalk.green('connectors registering ✘'))
 }
 
-let onPSubscription = info => {
+let onPEvent = info => {
   try {
     (info === 'titi').should.be.true()
     console.log(chalk.green('[mam*ia] event [titi] ✔'))
@@ -34,11 +34,11 @@ let onPSubscription = info => {
 
   redisConnector.punsubscribe('mam*ia').then(info => {
     try {
-      console.log(info)
       (info.patterns === 2 && info.currentPatternSubscriptions === 0).should.be.true()
       console.log(chalk.green('[mam*ia] unsubscription ✔'))
     } catch (err) {
       console.log(chalk.red('[mam*ia] unsubscription ✘'))
+      console.log(err)
     }
   }).catch(err => {
     console.log(chalk.red('[mam*ia] unsubscription ✘'))
@@ -46,7 +46,7 @@ let onPSubscription = info => {
   })
 }
 
-let onSubscription = info => {
+let onEvent = info => {
   try {
     (info === 'titi').should.be.true()
     console.log(chalk.green('[mamamia] event [titi] ✔'))
@@ -86,7 +86,7 @@ let onSubscription = info => {
 
         redisConnector.unsubscribe('mamamia').then(info => {
           try {
-            (info.channels === 2 && info.currentChannelSubscriptions === 0).should.be.true()
+            (info.channels === 1 && info.currentChannelSubscriptions === 0).should.be.true()
             console.log(chalk.green('[mamamia] unsubscription ✔'))
           } catch (err) {
             console.log(chalk.red('[mamamia] unsubscription ✘'))
@@ -133,7 +133,7 @@ redisConnector.subscribeKVEvents().then((pattern, db) => {
   console.log(chalk.green('subscribed keyspace events for pattern [' +
     pattern + '] and db [' +  db + '] ✔'))
 
-  redisConnector.subscribe('mamamia', onSubscription).then(info => {
+  redisConnector.subscribe('mamamia', onEvent).then(info => {
     console.log(chalk.green('subscribed channel [mamamia] ✔'))
     try {
       (info.channels === 2 && info.currentChannelSubscriptions === 1).should.be.true()
@@ -142,7 +142,7 @@ redisConnector.subscribeKVEvents().then((pattern, db) => {
       console.log(chalk.red('[mamamia] subscription ✘'))
     }
 
-    redisConnector.psubscribe('mam*ia', onPSubscription).then(iinfo => {
+    redisConnector.psubscribe('mam*ia', onPEvent).then(iinfo => {
       console.log(chalk.green('subscribed pattern [mam*ia] ✔'))
       try {
         (iinfo.patterns === 3 && iinfo.currentPatternSubscriptions === 1).should.be.true()
