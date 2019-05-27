@@ -8,19 +8,23 @@
   "keywords": [
     "microservice",
     "service discovery",
-    "api-gateway"
+    "api gateway",
+    "serverless"
   ],
   "license": "MIT",
   "scripts": {
     "lint": "eslint --ext .js lib",
     "docker:redis": "docker-compose up -d redis",
-    "test:connectors": "npm run docker:redis && node test/test_connectors.js"
+    "test:connectors": "npm run docker:redis && node test/test_connectors.js",
+    "test:service": "npm run docker:redis && export DEBUG=iios:* && node test/test_service.js",
+    "test:services": "docker-compose up"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "connect": "^3.6.6",
     "connect-rest": "^3.0.29",
     "cpu-stats": "^1.0.0",
+    "debug": "^4.1.1",
     "ioredis": "^4.9.0",
     "serve-static": "^1.13.2"
   },

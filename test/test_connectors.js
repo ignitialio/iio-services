@@ -6,22 +6,15 @@ const chalk = require('chalk')
 const ConnectorFactory = require('../lib/connector-factory')
 
 let connectorFactory = new ConnectorFactory()
-
-let basedir = path.join(__dirname, '../lib/connectors')
-let connectorSrcs = fs.readdirSync(basedir)
-
-for (let cs of connectorSrcs) {
-  let Klass = require(path.join(basedir, cs))
-  connectorFactory.registerConnectorClass(cs.replace('.connector.js', ''), Klass)
-}
-
 let connectorsList = connectorFactory.list()
+
+let keyEvent = false
 
 try {
   (connectorsList.length === 1).should.be.true()
   console.log(chalk.green('connectors registering ✔'))
 } catch (err) {
-  console.log(chalk.green('connectors registering ✘'))
+  console.log(chalk.red('connectors registering ✘'))
 }
 
 let onPEvent = info => {
@@ -54,11 +47,6 @@ let onEvent = info => {
     console.log(chalk.red('[mamamia] event [titi] ✘'))
   }
 
-  redisConnector.on('key', (key, operation) => {
-    (key === 'iios:iios:mamamia' && operation === 'set').should.be.true()
-    console.log('key [' + key + '] ' + operation)
-  })
-
   redisConnector.set('iios:iios:mamamia', 'toto').then(value1 => {
     try {
       (value1 === 'toto').should.be.true()
@@ -84,23 +72,42 @@ let onEvent = info => {
           console.log(err)
         }
 
-        redisConnector.unsubscribe('mamamia').then(info => {
+        redisConnector.del('iios:iios:mamamia').then(async () => {
           try {
-            (info.channels === 1 && info.currentChannelSubscriptions === 0).should.be.true()
-            console.log(chalk.green('[mamamia] unsubscription ✔'))
+            ((await redisConnector.get('iios:iios:mamamia')) === null).should.be.true()
+            console.log(chalk.green('[iios:iios:mamamia] del ✔'))
           } catch (err) {
-            console.log(chalk.red('[mamamia] unsubscription ✘'))
-            console.log(err)
+            console.log(chalk.red('[iios:iios:mamamia] del ✘'))
           }
 
-          redisConnector.destroy().then(() => {
-            console.log(chalk.green('connector destroyed ✔'))
+          redisConnector.unsubscribe('mamamia').then(info => {
+            try {
+              (info.channels === 1 && info.currentChannelSubscriptions === 0).should.be.true()
+              console.log(chalk.green('[mamamia] unsubscription ✔'))
+            } catch (err) {
+              console.log(chalk.red('[mamamia] unsubscription ✘'))
+              console.log(err)
+            }
+
+            setTimeout(() => {
+              redisConnector.destroy().then(() => {
+                console.log(chalk.green('connector destroyed ✔'))
+
+                if (keyEvent) {
+                  console.log(chalk.green('key event ✔'))
+                } else {
+                  console.log(chalk.red('key event ✘'))
+                }
+              }).catch(err => {
+                console.log(chalk.green('connector destroyed ✘'))
+              })
+            }, 1000)
           }).catch(err => {
-            console.log(chalk.green('connector destroyed ✘'))
+            console.log(chalk.red('[mamamia] unsubscription ✘'))
+            console.log(err)
           })
         }).catch(err => {
-          console.log(chalk.red('[mamamia] unsubscription ✘'))
-          console.log(err)
+          console.log(chalk.red('[iios:iios:mamamia] del ✘'))
         })
       }).catch(err => {
         console.log(chalk.red('[iios:iios:mamamia] multiple get ✘'))
@@ -129,9 +136,19 @@ redisConnector.on('end', who => {
   console.log(chalk.green('[' + who + '] disconnected from server ✔'))
 })
 
-redisConnector.subscribeKVEvents().then((pattern, db) => {
+redisConnector.subscribeKVEvents('iios:*').then((pattern, db) => {
   console.log(chalk.green('subscribed keyspace events for pattern [' +
     pattern + '] and db [' +  db + '] ✔'))
+
+  redisConnector.on('key', (key, operation) => {
+    try {
+      (key === 'iios:iios:mamamia' &&
+        (operation === 'set' || operation === 'del')).should.be.true()
+      keyEvent = true
+    } catch (err) {
+      console.log(chalk.red('key event ✘'))
+    }
+  })
 
   redisConnector.subscribe('mamamia', onEvent).then(info => {
     console.log(chalk.green('subscribed channel [mamamia] ✔'))
