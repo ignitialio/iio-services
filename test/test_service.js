@@ -1,19 +1,8 @@
 const should = require('should')
 const chalk = require('chalk')
+const got = require('got')
 
-const Service = require('../').Service
-
-class Bob extends Service {
-  constructor(options) {
-    super(options)
-  }
-
-  sayYes(args) {
-    return new Promise((resolve, reject) => {
-      resolve('Yes Mister ' + args.toWhom)
-    })
-  }
-}
+const Bob = require('./service/bob.service')
 
 let bob = new Bob({
   name: 'bob',
@@ -67,10 +56,30 @@ bob._init().then(async () => {
       (index).should.be.aboveOrEqual(0)
       console.log(chalk.green('get keys ✔'))
 
-      bob._connector.get('iios:iios:bob').then(value => {
+      bob._connector.get('iios:iios:bob').then(async value => {
         try {
           (bob._connector.encoder.unpack(value).name === 'bob').should.be.true()
           console.log(chalk.green('service registred ✔'))
+
+          try {
+            let response = (await got('/sayYes?toWhom=alicehttp', {
+              baseUrl: 'http://127.0.0.1:29000/api',
+              json: true,
+              headers: { userId: '200' }
+            })).body
+
+            console.log(chalk.green('http service call ✔'))
+
+            try {
+              (response === 'Yes dear alicehttp').should.be.true()
+              console.log(chalk.green('http service response ✔'))
+            } catch (err) {
+              console.log(chalk.red('http service response ✘'))
+              console.log(response)
+            }
+          } catch (err) {
+            console.log(chalk.red('http service call ✘'))
+          }
 
           setTimeout(() => {
             bob._destroy().then(() => {
