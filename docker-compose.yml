@@ -36,7 +36,7 @@ services:
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
       - DEBUG=iios:*
-    command: ["pm2-docker", "test/service/index.js"]
+    command: ["./test/service/delayed_start.sh", "5"]
 
   ted:
     image: ignitial/iios:latest
@@ -52,4 +52,4 @@ services:
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
       - DEBUG=iios:*
-    command: ["./test/service/delayed_start.sh"]
+    command: ["./test/service/delayed_start.sh", "15"]

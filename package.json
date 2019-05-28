@@ -1,6 +1,6 @@
 {
   "name": "@ignitial/iio-services",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "Ignitial.io microservices",
   "main": "index.js",
   "repository": "git@gitlab.com:ignitial/iio-service.git",
@@ -17,7 +17,7 @@
     "docker:redis": "docker-compose up -d redis",
     "test:connectors": "npm run docker:redis && node test/test_connectors.js",
     "test:service": "npm run docker:redis && export DEBUG=iios:* && node test/test_service.js",
-    "test:services": "docker-compose up"
+    "test:services": "test/test_services.sh"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

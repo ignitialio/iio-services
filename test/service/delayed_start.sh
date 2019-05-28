@@ -1,4 +1,4 @@
 #!/bin/sh
 
-sleep 5
+sleep $1
 pm2-docker test/service/index.js

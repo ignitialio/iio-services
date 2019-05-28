@@ -10,7 +10,13 @@ class Bob extends Service {
 
   sayYes(args) {
     return new Promise((resolve, reject) => {
-      resolve('Yes dear ' + args.toWhom)
+      resolve('Yes dear ' + args.toWhom, 0, 'something else')
+    })
+  }
+
+  tellUndefined() {
+    return new Promise((resolve, reject) => {
+      resolve()
     })
   }
 }

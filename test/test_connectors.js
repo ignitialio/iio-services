@@ -17,7 +17,7 @@ try {
   console.log(chalk.red('connectors registering ✘'))
 }
 
-let onPEvent = info => {
+let onPEvent = (pattern, channel, info) => {
   try {
     (info === 'titi').should.be.true()
     console.log(chalk.green('[mam*ia] event [titi] ✔'))
@@ -39,7 +39,7 @@ let onPEvent = info => {
   })
 }
 
-let onEvent = info => {
+let onEvent = (channel, info) => {
   try {
     (info === 'titi').should.be.true()
     console.log(chalk.green('[mamamia] event [titi] ✔'))

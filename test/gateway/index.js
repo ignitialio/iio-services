@@ -30,6 +30,16 @@ gateway._waitForService('bob').then(serviceInfo => {
     }).then(response => {
       console.log(chalk.green('get bob response ✔'))
       console.log('bob\'s response', response)
+
+      service.tellUndefined({
+        toWhom: 'alice'
+      }).then(response => {
+        console.log(chalk.green('get bob undefined response ✔'))
+        console.log('bob\'s response', response)
+      }).catch(err => {
+        console.log(chalk.green('get bob undefined response ✘'))
+        console.log('err', err)
+      })
     }).catch(err => {
       console.log(chalk.green('get bob response ✘'))
       console.log('err', err)
