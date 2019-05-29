@@ -1,5 +1,6 @@
 module.exports = {
   name: process.env.SERVICE_NAME,
+  pubsubRPC: process.env.PUBSUB_RPC,
   /* PUB/SUB/KV connector*/
   connector: {
     /* redis server connection */

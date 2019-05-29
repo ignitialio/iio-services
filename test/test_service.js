@@ -62,23 +62,91 @@ bob._init().then(async () => {
           console.log(chalk.green('service registred ✔'))
 
           try {
-            let response = (await got('/sayYes?toWhom=alicehttp', {
+            let response = (await got('/sayYes?toWhome=alicehttp', {
               baseUrl: 'http://127.0.0.1:29000/api',
+              method: 'get',
+              json: true,
+              body: { toWhome: 'alicehttp' },
+              headers: { userId: '200' }
+            })).body
+
+            console.log(chalk.green('http get service call ✔'))
+
+            try {
+              (response === 'Yes dear alicehttp or 200').should.be.true()
+              console.log(chalk.green('http get service response ✔'))
+            } catch (err) {
+              console.log(chalk.red('http get service response ✘'))
+              console.log(response)
+            }
+          } catch (err) {
+            console.log(chalk.red('http get service call ✘'))
+          }
+
+          try {
+            let response = (await got('/saveYes?toWhome=alicehttp', {
+              baseUrl: 'http://127.0.0.1:29000/api',
+              method: 'post',
+              json: true,
+              body: { toWhome: 'alicehttp' },
+              headers: { userId: '200' }
+            })).body
+
+            console.log(chalk.green('http post service call ✔'))
+
+            try {
+              (response === 'Yes is saved dear alicehttp or 200').should.be.true()
+              console.log(chalk.green('http post service response ✔'))
+            } catch (err) {
+              console.log(chalk.red('http post service response ✘'))
+              console.log(response)
+            }
+          } catch (err) {
+            console.log(chalk.red('http post service call ✘'))
+          }
+
+          try {
+            let response = (await got('/putYes?toWhome=alicehttp', {
+              baseUrl: 'http://127.0.0.1:29000/api',
+              body: { toWhome: 'alicehttp' },
+              method: 'put',
               json: true,
               headers: { userId: '200' }
             })).body
 
-            console.log(chalk.green('http service call ✔'))
+            console.log(chalk.green('http put service call ✔'))
 
             try {
-              (response === 'Yes dear alicehttp').should.be.true()
-              console.log(chalk.green('http service response ✔'))
+              (response === 'Yes is in the hole dear alicehttp or 200').should.be.true()
+              console.log(chalk.green('http put service response ✔'))
             } catch (err) {
-              console.log(chalk.red('http service response ✘'))
+              console.log(chalk.red('http put service response ✘'))
               console.log(response)
             }
           } catch (err) {
-            console.log(chalk.red('http service call ✘'))
+            console.log(chalk.red('http put service call ✘'))
+          }
+
+          try {
+            let response = (await got('/killYes?toWhome=alicehttp', {
+              baseUrl: 'http://127.0.0.1:29000/api',
+              method: 'DELETE',
+              json: true,
+              headers: { userId: '200' }
+            })).body
+
+            console.log(chalk.green('http delete service call ✔'))
+
+            try {
+              (response.answer === 'Yes is killed dear alicehttp' &&
+                response.userId === '200').should.be.true()
+              console.log(chalk.green('http delete service response ✔'))
+            } catch (err) {
+              console.log(chalk.red('http delete service response ✘'))
+              console.log(response)
+            }
+          } catch (err) {
+            console.log(chalk.red('http delete service call ✘'))
           }
 
           setTimeout(() => {

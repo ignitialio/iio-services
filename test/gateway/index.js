@@ -26,13 +26,13 @@ gateway._waitForService('bob').then(serviceInfo => {
     console.log(chalk.green('got bob service API ✔'))
 
     service.sayYes({
-      toWhom: 'alice'
+      toWhome: 'alice'
     }).then(response => {
       console.log(chalk.green('get bob response ✔'))
       console.log('bob\'s response', response)
 
       service.tellUndefined({
-        toWhom: 'alice'
+        toWhome: 'alice'
       }).then(response => {
         console.log(chalk.green('get bob undefined response ✔'))
         console.log('bob\'s response', response)
@@ -56,7 +56,7 @@ gateway.on('service:registered', (serviceName, serviceInfo) => {
   if (serviceName === 'ted') {
     console.log(chalk.green('ted service registered ✔'))
     gateway.api.ted.sayYes({
-      toWhom: 'alice'
+      toWhome: 'alice'
     }).then(response => {
       console.log(chalk.green('get ted response ✔'))
       console.log('ted\'s response', response)

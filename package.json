@@ -17,7 +17,8 @@
     "docker:redis": "docker-compose up -d redis",
     "test:connectors": "npm run docker:redis && node test/test_connectors.js",
     "test:service": "npm run docker:redis && export DEBUG=iios:* && node test/test_service.js",
-    "test:services": "test/test_services.sh"
+    "test:services": "test/test_services.sh",
+    "test:services:http": "test/test_services_http.sh"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -25,6 +26,7 @@
     "connect-rest": "^3.0.29",
     "cpu-stats": "^1.0.0",
     "debug": "^4.1.1",
+    "got": "^9.6.0",
     "ioredis": "^4.9.0",
     "serve-static": "^1.13.2"
   },
@@ -36,7 +38,6 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
-    "got": "^9.6.0",
     "should": "^13.2.3"
   }
 }

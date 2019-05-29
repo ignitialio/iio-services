@@ -16,6 +16,7 @@ services:
       - ${PWD}:/opt/svc
     environment:
       - IIOS_SERVER_PORT=20991
+      - PUBSUB_RPC=${PUBSUB_RPC}
       - IIOS_SERVER_HOST=0.0.0.0
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
@@ -31,12 +32,13 @@ services:
       - ${PWD}:/opt/svc
     environment:
       - SERVICE_NAME=bob
+      - PUBSUB_RPC=${PUBSUB_RPC}
       - IIOS_SERVER_PORT=20992
       - IIOS_SERVER_HOST=0.0.0.0
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
       - DEBUG=iios:*
-    command: ["./test/service/delayed_start.sh", "5"]
+    command: ["./test/service/delayed_start.sh", "2"]
 
   ted:
     image: ignitial/iios:latest
