@@ -1,6 +1,7 @@
 module.exports = {
   name: 'alice',
   pubsubRPC: process.env.PUBSUB_RPC,
+  discoveryServers: [],
   timeout: 500,
   /* PUB/SUB/KV connector*/
   connector: {

@@ -1,6 +1,14 @@
 module.exports = {
   name: process.env.SERVICE_NAME,
   pubsubRPC: process.env.PUBSUB_RPC,
+  discoveryServers: [
+    {
+      /* server host */
+      host: 'alice',
+      /* server port */
+      port: 20991
+    }
+  ],
   /* PUB/SUB/KV connector*/
   connector: {
     /* redis server connection */

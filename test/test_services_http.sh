@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PUBSUB_RPC=true
+export PUBSUB_RPC=false
 docker-compose up > test-services.log 2>&1 &
 sleep 30
 docker-compose stop

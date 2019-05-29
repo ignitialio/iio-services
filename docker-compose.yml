@@ -17,7 +17,7 @@ services:
     environment:
       - IIOS_SERVER_PORT=20991
       - PUBSUB_RPC=${PUBSUB_RPC}
-      - IIOS_SERVER_HOST=0.0.0.0
+      - IIOS_SERVER_HOST=alice
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
       - DEBUG=iios:*
@@ -34,7 +34,7 @@ services:
       - SERVICE_NAME=bob
       - PUBSUB_RPC=${PUBSUB_RPC}
       - IIOS_SERVER_PORT=20992
-      - IIOS_SERVER_HOST=0.0.0.0
+      - IIOS_SERVER_HOST=bob
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
       - DEBUG=iios:*
@@ -49,8 +49,9 @@ services:
       - ${PWD}:/opt/svc
     environment:
       - SERVICE_NAME=ted
+      - PUBSUB_RPC=${PUBSUB_RPC}
       - IIOS_SERVER_PORT=20993
-      - IIOS_SERVER_HOST=0.0.0.0
+      - IIOS_SERVER_HOST=ted
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
       - DEBUG=iios:*

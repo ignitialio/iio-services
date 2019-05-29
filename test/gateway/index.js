@@ -12,45 +12,47 @@ gateway._init().then(() => {
   console.log(err)
 })
 
-gateway._waitForService('bob').then(serviceInfo => {
-  try {
-    (serviceInfo.name === 'bob').should.be.true()
-    console.log(chalk.green('found bob service ✔'))
-  } catch (err) {
-    console.log(chalk.red('found bob service ✘'))
-    console.log(err)
-  }
+if (config.pubsubRPC) {
+  gateway._waitForService('bob').then(serviceInfo => {
+    try {
+      (serviceInfo.name === 'bob').should.be.true()
+      console.log(chalk.green('found bob service ✔'))
+    } catch (err) {
+      console.log(chalk.red('found bob service ✘'))
+      console.log(err)
+    }
 
-  gateway._waitForServiceAPI('bob').then(service => {
-    (service !==  undefined).should.be.true()
-    console.log(chalk.green('got bob service API ✔'))
+    gateway._waitForServiceAPI('bob').then(service => {
+      (service !==  undefined).should.be.true()
+      console.log(chalk.green('got bob service API ✔'))
 
-    service.sayYes({
-      toWhome: 'alice'
-    }).then(response => {
-      console.log(chalk.green('get bob response ✔'))
-      console.log('bob\'s response', response)
-
-      service.tellUndefined({
+      service.sayYes({
         toWhome: 'alice'
       }).then(response => {
-        console.log(chalk.green('get bob undefined response ✔'))
+        console.log(chalk.green('get bob response ✔'))
         console.log('bob\'s response', response)
+
+        service.tellUndefined({
+          toWhome: 'alice'
+        }).then(response => {
+          console.log(chalk.green('get bob undefined response ✔'))
+          console.log('bob\'s response', response)
+        }).catch(err => {
+          console.log(chalk.green('get bob undefined response ✘'))
+          console.log('err', err)
+        })
       }).catch(err => {
-        console.log(chalk.green('get bob undefined response ✘'))
+        console.log(chalk.green('get bob response ✘'))
         console.log('err', err)
       })
     }).catch(err => {
-      console.log(chalk.green('get bob response ✘'))
-      console.log('err', err)
+      console.log(chalk.green('got bob service API ✘'))
+      console.log(err)
     })
   }).catch(err => {
-    console.log(chalk.green('got bob service API ✘'))
-    console.log(err)
+    console.log(chalk.red('found bob service ✘'))
   })
-}).catch(err => {
-  console.log(chalk.red('found bob service ✘'))
-})
+}
 
 gateway.on('service:registered', (serviceName, serviceInfo) => {
   if (serviceName === 'ted') {
