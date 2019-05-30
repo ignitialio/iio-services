@@ -66,7 +66,7 @@ bob._init().then(async () => {
               baseUrl: 'http://127.0.0.1:29000/api',
               method: 'get',
               json: true,
-              body: { toWhome: 'alicehttp' },
+              body: [ { toWhome: 'alicehttp' } ],
               headers: { userId: '200' }
             })).body
 
@@ -88,7 +88,7 @@ bob._init().then(async () => {
               baseUrl: 'http://127.0.0.1:29000/api',
               method: 'post',
               json: true,
-              body: { toWhome: 'alicehttp' },
+              body: [ 'alicehttp' ],
               headers: { userId: '200' }
             })).body
 
@@ -108,7 +108,7 @@ bob._init().then(async () => {
           try {
             let response = (await got('/putYes?toWhome=alicehttp', {
               baseUrl: 'http://127.0.0.1:29000/api',
-              body: { toWhome: 'alicehttp' },
+              body: [ { toWhome: 'alicehttp' } ],
               method: 'put',
               json: true,
               headers: { userId: '200' }
@@ -147,6 +147,28 @@ bob._init().then(async () => {
             }
           } catch (err) {
             console.log(chalk.red('http delete service call ✘'))
+          }
+
+          try {
+            let response = (await got('/tellNothing', {
+              baseUrl: 'http://127.0.0.1:29000/api',
+              method: 'get',
+              json: true,
+              headers: { userId: '200' }
+            })).body
+
+            console.log(chalk.green('http tellNothing service call ✔'))
+
+            try {
+              (response.status === 'ok').should.be.true()
+              console.log(chalk.green('http tellNothing service response ✔'))
+            } catch (err) {
+              console.log(chalk.red('http tellNothing service response ✘'))
+              console.log(response)
+            }
+          } catch (err) {
+            console.log(chalk.red('http tellNothing service call ✘'))
+            console.log(err)
           }
 
           setTimeout(() => {

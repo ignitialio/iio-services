@@ -20,7 +20,7 @@ services:
       - IIOS_SERVER_HOST=alice
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
-      - DEBUG=iios:*
+      - DEBUG=${DEBUG}
     command: ["pm2-docker", "test/gateway/index.js"]
 
   bob:
@@ -37,7 +37,7 @@ services:
       - IIOS_SERVER_HOST=bob
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
-      - DEBUG=iios:*
+      - DEBUG=${DEBUG}
     command: ["./test/service/delayed_start.sh", "2"]
 
   ted:
@@ -54,5 +54,5 @@ services:
       - IIOS_SERVER_HOST=ted
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
-      - DEBUG=iios:*
+      - DEBUG=${DEBUG}
     command: ["./test/service/delayed_start.sh", "15"]

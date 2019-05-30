@@ -16,7 +16,7 @@
     "lint": "eslint --ext .js lib",
     "docker:redis": "docker-compose up -d redis",
     "test:connectors": "npm run docker:redis && node test/test_connectors.js",
-    "test:service": "npm run docker:redis && export DEBUG=iios:* && node test/test_service.js",
+    "test:service": "npm run docker:redis && export DEBUG=-removethis-iios:* && node test/test_service.js",
     "test:services": "test/test_services.sh",
     "test:services:http": "test/test_services_http.sh"
   },

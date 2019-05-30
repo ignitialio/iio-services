@@ -5,38 +5,41 @@ class Bob extends Service {
     super(options)
   }
 
-  sayYes(args, userId) {
+  sayYes({ toWhome = '' }, userId) {
     /* @_GET_ */
     return new Promise((resolve, reject) => {
-      // console.log('userId=', userId)
-      resolve('Yes dear ' + args.toWhome + ' or ' + userId)
+      resolve('Yes dear ' + toWhome + ' or ' + userId)
     })
   }
 
-  saveYes(args, userId) {
+  saveYes(toWhome, userId) {
     /* @_POST_ */
     return new Promise((resolve, reject) => {
-      // console.log('userId=', userId)
-      resolve('Yes is saved dear ' + args.toWhome + ' or ' + userId)
+      resolve('Yes is saved dear ' + toWhome + ' or ' + userId)
     })
   }
 
-  putYes(args, userId) {
+  putYes({ toWhome = '' }, userId) {
     /* @_PUT_ */
     return new Promise((resolve, reject) => {
-      // console.log('userId=', userId)
-      resolve('Yes is in the hole dear ' + args.toWhome + ' or ' + userId)
+      resolve('Yes is in the hole dear ' + toWhome + ' or ' + userId)
     })
   }
 
-  killYes(args, userId) {
+  killYes(toWhome, userId) {
     /* @_DELETE_ */
     return new Promise((resolve, reject) => {
-      // console.log('userId=', userId)
       resolve({
-        answer: 'Yes is killed dear ' + args.toWhome,
+        answer: 'Yes is killed dear ' + toWhome,
         userId: userId
       })
+    })
+  }
+
+  tellNothing() {
+    /* @_GET_ */
+    return new Promise((resolve, reject) => {
+      resolve()
     })
   }
 

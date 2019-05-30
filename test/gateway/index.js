@@ -26,17 +26,63 @@ if (config.pubsubRPC) {
       (service !==  undefined).should.be.true()
       console.log(chalk.green('got bob service API ✔'))
 
-      service.sayYes({
+      service.saveYes('alice', { $userId: '200' }).then(response => {
+        console.log(chalk.green('get saveYes response ✔'))
+
+        try {
+          (response === 'Yes is saved dear alice or 200').should.be.true()
+          console.log(chalk.green('bob\'s saveYes response ✔'))
+        } catch (err) {
+          console.log(chalk.red('bob\'s saveYes response ✘'))
+          console.log(response)
+        }
+      }).catch(err => {
+        console.log(chalk.green('get saveYes response ✘'))
+        console.log('err', err)
+      })
+
+      service.putYes({
         toWhome: 'alice'
       }).then(response => {
+        console.log(chalk.green('get putYes response ✔'))
+
+        try {
+          (response === 'Yes is in the hole dear alice or undefined').should.be.true()
+          console.log(chalk.green('bob\'s putYes response ✔'))
+        } catch (err) {
+          console.log(chalk.red('bob\'s putYes response ✘'))
+          console.log(response)
+        }
+      }).catch(err => {
+        console.log(chalk.green('get putYes response ✘'))
+        console.log('err', err)
+      })
+
+      service.sayYes({
+        toWhome: 'alice'
+      }, { $userId: '200' }).then(response => {
         console.log(chalk.green('get bob response ✔'))
-        console.log('bob\'s response', response)
+
+        try {
+          (response === 'Yes dear alice or 200').should.be.true()
+          console.log(chalk.green('bob\'s sayYes response ✔'))
+        } catch (err) {
+          console.log(chalk.red('bob\'s sayYes response ✘'))
+          console.log(response)
+        }
 
         service.tellUndefined({
           toWhome: 'alice'
         }).then(response => {
           console.log(chalk.green('get bob undefined response ✔'))
-          console.log('bob\'s response', response)
+
+          try {
+            (response === undefined).should.be.true()
+            console.log(chalk.green('bob\'s tellUndefined response ✔'))
+          } catch (err) {
+            console.log(chalk.red('bob\'s tellUndefined response ✘'))
+            console.log(response)
+          }
         }).catch(err => {
           console.log(chalk.green('get bob undefined response ✘'))
           console.log('err', err)
@@ -57,11 +103,66 @@ if (config.pubsubRPC) {
 gateway.on('service:registered', (serviceName, serviceInfo) => {
   if (serviceName === 'ted') {
     console.log(chalk.green('ted service registered ✔'))
-    gateway.api.ted.sayYes({
+
+    gateway.api.ted.saveYes('alice', { $userId: '200' }).then(response => {
+      console.log(chalk.green('get ted\'s saveYes response ✔'))
+
+      try {
+        (response === 'Yes is saved dear alice or 200').should.be.true()
+        console.log(chalk.green('ted\'s saveYes response ✔'))
+      } catch (err) {
+        console.log(chalk.red('ted\'s saveYes response ✘'))
+        console.log(response)
+      }
+    }).catch(err => {
+      console.log(chalk.green('get ted\'s saveYes response ✔'))
+      console.log('err', err)
+    })
+
+    gateway.api.ted.putYes({
       toWhome: 'alice'
     }).then(response => {
+      console.log(chalk.green('get ted\'s putYes response ✔'))
+
+      try {
+        (response === 'Yes is in the hole dear alice or undefined').should.be.true()
+        console.log(chalk.green('ted\'s putYes response ✔'))
+      } catch (err) {
+        console.log(chalk.red('ted\'s putYes response ✘'))
+        console.log(response)
+      }
+    }).catch(err => {
+      console.log(chalk.green('get ted\'s putYes response ✘'))
+      console.log('err', err)
+    })
+
+    gateway.api.ted.sayYes({
+      toWhome: 'alice'
+    }, { $userId: '200' }).then(response => {
       console.log(chalk.green('get ted response ✔'))
-      console.log('ted\'s response', response)
+
+      try {
+        (response === 'Yes dear alice or 200').should.be.true()
+        console.log(chalk.green('ted\'s sayYes response ✔'))
+      } catch (err) {
+        console.log(chalk.red('ted\'s sayYes response ✘'))
+        console.log(response)
+      }
+
+      gateway.api.ted.tellNothing().then(response => {
+        console.log(chalk.green('get ted undefined response ✔'))
+
+        try {
+          (response === undefined).should.be.true()
+          console.log(chalk.green('ted\'s tellUndefined response ✔'))
+        } catch (err) {
+          console.log(chalk.red('ted\'s tellUndefined response ✘'))
+          console.log(response)
+        }
+      }).catch(err => {
+        console.log(chalk.green('get ted undefined response ✘'))
+        console.log('err', err)
+      })
     }).catch(err => {
       console.log(chalk.green('get ted response ✘'))
       console.log('err', err)
