@@ -14,13 +14,16 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --ext .js lib",
-    "docker:redis": "docker-compose up -d redis",
-    "test:connectors": "npm run docker:redis && node test/test_connectors.js",
-    "test:service": "npm run docker:redis && export DEBUG=-removethis-iios:* && node test/test_service.js",
+    "config:build": "test/utils/build.sh",
+    "config:populate": "docker-compose up -d redis && node test/utils/populate.js && docker-compose stop redis && docker-compose rm -f redis",
+    "test:accesscontrol": "docker-compose up -d redis && node test/test_accesscontrol.js && docker-compose stop redis && docker-compose rm -f redis",
+    "test:connectors": "docker-compose up -d redis && node test/test_connectors.js",
+    "test:service": "docker-compose up -d redis && export DEBUG=-removethis-iios:* && node test/test_service.js && docker-compose stop redis && docker-compose rm -f redis",
     "test:services": "test/test_services.sh",
     "test:services:http": "test/test_services_http.sh"
   },
   "dependencies": {
+    "accesscontrol": "^2.2.1",
     "body-parser": "^1.18.3",
     "connect": "^3.6.6",
     "connect-rest": "^3.0.29",

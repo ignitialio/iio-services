@@ -6,6 +6,8 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    volumes:
+      - redis-data:/data
 
   alice:
     image: ignitial/iios:latest
@@ -56,3 +58,6 @@ services:
       - REDIS_HOST=redis
       - DEBUG=${DEBUG}
     command: ["./test/service/delayed_start.sh", "15"]
+
+volumes:
+  redis-data:

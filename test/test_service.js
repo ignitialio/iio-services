@@ -58,7 +58,7 @@ bob._init().then(async () => {
 
       bob._connector.get('iios:iios:bob').then(async value => {
         try {
-          (bob._connector.encoder.unpack(value).name === 'bob').should.be.true()
+          (value.name === 'bob').should.be.true()
           console.log(chalk.green('service registred ✔'))
 
           try {

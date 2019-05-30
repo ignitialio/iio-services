@@ -3,7 +3,7 @@ const path = require('path')
 const should = require('should')
 const chalk = require('chalk')
 
-const ConnectorFactory = require('../lib/connector-factory')
+const ConnectorFactory = require('../lib/connectors').ConnectorFactory
 
 let connectorFactory = new ConnectorFactory()
 let connectorsList = connectorFactory.list()
