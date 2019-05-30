@@ -17,20 +17,6 @@ module.exports = {
       ipFamily: 4
     }
   },
-  /* access control: if present, acces control enabled */
-  accesscontrol: {
-    /* connector configuration: optional, default same as global connector, but
-       on DB 1 */ 
-    connector: {
-      /* redis server connection */
-      redis: {
-        host: process.env.REDIS_HOST,
-        port: 6379,
-        db: 0,
-        ipFamily: 4
-      }
-    }
-  },
   /* service namesapce */
   namespace: process.env.IIOS_NAMESPACE || 'iios',
   /* HTTP server declaration */

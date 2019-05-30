@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   redis:
-    image: redis:latest
+    image: redis:5.0.5-alpine
     container_name: redis
     ports:
       - "6379:6379"
@@ -40,7 +40,8 @@ services:
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
       - DEBUG=${DEBUG}
-    command: ["./test/service/delayed_start.sh", "2"]
+      - DELAYED=2
+    command: ["pm2-docker", "test/service/index.js"]
 
   ted:
     image: ignitial/iios:latest
@@ -57,7 +58,8 @@ services:
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
       - DEBUG=${DEBUG}
-    command: ["./test/service/delayed_start.sh", "15"]
+      - DELAYED=15
+    command: ["pm2-docker", "test/service/index.js", "15"]
 
 volumes:
   redis-data:

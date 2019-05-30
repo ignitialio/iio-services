@@ -41,6 +41,36 @@ if (config.pubsubRPC) {
         console.log('err', err)
       })
 
+      service.saveYes('alice', { $userId: 'gcrood' }).then(response => {
+        console.log(chalk.green('get saveYes with gcrood response ✔'))
+
+        try {
+          (response === 'Yes is saved dear alice or gcrood').should.be.true()
+          console.log(chalk.green('bob\'s saveYes with gcrood response ✔'))
+        } catch (err) {
+          console.log(chalk.red('bob\'s saveYes with gcrood response ✘'))
+          console.log(response)
+        }
+      }).catch(err => {
+        console.log(chalk.green('get saveYes with gcrood response ✘'))
+        console.log('err', err)
+      })
+
+      service.saveYes('alice', { $userId: 'gcrood' }).then(response => {
+        console.log(chalk.green('get saveYes with gcrood response 2 ✔'))
+
+        try {
+          (response === 'Yes is saved dear alice or gcrood').should.be.true()
+          console.log(chalk.green('bob\'s saveYes with gcrood response 2 ✔'))
+        } catch (err) {
+          console.log(chalk.red('bob\'s saveYes with gcrood response 2 ✘'))
+          console.log(response)
+        }
+      }).catch(err => {
+        console.log(chalk.green('get saveYes with gcrood response 2 ✘'))
+        console.log('err', err)
+      })
+
       service.putYes({
         toWhome: 'alice'
       }).then(response => {
