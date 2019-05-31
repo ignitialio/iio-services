@@ -27,18 +27,17 @@ if (config.pubsubRPC) {
       console.log(chalk.green('got bob service API ✔'))
 
       service.saveYes('alice', { $userId: '200' }).then(response => {
-        console.log(chalk.green('get saveYes response ✔'))
+        console.log(chalk.red('get saveYes access not granted response ✘'))
+      }).catch(err => {
+        console.log(chalk.green('get saveYes access not granted response ✔'))
 
         try {
-          (response === 'Yes is saved dear alice or 200').should.be.true()
+          (!!err.toString().match('access not granted')).should.be.true()
           console.log(chalk.green('bob\'s saveYes response ✔'))
         } catch (err) {
           console.log(chalk.red('bob\'s saveYes response ✘'))
-          console.log(response)
+          console.log(err)
         }
-      }).catch(err => {
-        console.log(chalk.green('get saveYes response ✘'))
-        console.log('err', err)
       })
 
       service.saveYes('alice', { $userId: 'gcrood' }).then(response => {
@@ -52,7 +51,7 @@ if (config.pubsubRPC) {
           console.log(response)
         }
       }).catch(err => {
-        console.log(chalk.green('get saveYes with gcrood response ✘'))
+        console.log(chalk.red('get saveYes with gcrood response ✘'))
         console.log('err', err)
       })
 
@@ -67,13 +66,13 @@ if (config.pubsubRPC) {
           console.log(response)
         }
       }).catch(err => {
-        console.log(chalk.green('get saveYes with gcrood response 2 ✘'))
+        console.log(chalk.red('get saveYes with gcrood response 2 ✘'))
         console.log('err', err)
       })
 
       service.putYes({
         toWhome: 'alice'
-      }).then(response => {
+      }, { $userId: 'gcrood' }).then(response => {
         console.log(chalk.green('get putYes response ✔'))
 
         try {
@@ -84,17 +83,17 @@ if (config.pubsubRPC) {
           console.log(response)
         }
       }).catch(err => {
-        console.log(chalk.green('get putYes response ✘'))
+        console.log(chalk.red('get putYes response ✘'))
         console.log('err', err)
       })
 
       service.sayYes({
         toWhome: 'alice'
-      }, { $userId: '200' }).then(response => {
+      }, { $userId: 'gcrood' }).then( async response => {
         console.log(chalk.green('get bob response ✔'))
 
         try {
-          (response === 'Yes dear alice or 200').should.be.true()
+          (response === 'Yes dear alice or gcrood').should.be.true()
           console.log(chalk.green('bob\'s sayYes response ✔'))
         } catch (err) {
           console.log(chalk.red('bob\'s sayYes response ✘'))
@@ -103,7 +102,7 @@ if (config.pubsubRPC) {
 
         service.tellUndefined({
           toWhome: 'alice'
-        }).then(response => {
+        }, { $userId: 'gcrood' }).then(response => {
           console.log(chalk.green('get bob undefined response ✔'))
 
           try {
@@ -114,15 +113,32 @@ if (config.pubsubRPC) {
             console.log(response)
           }
         }).catch(err => {
-          console.log(chalk.green('get bob undefined response ✘'))
+          console.log(chalk.red('get bob undefined response ✘'))
           console.log('err', err)
         })
+
+        try {
+          console.log('++++ START STRESS TEST ++++')
+          let t0 = Date.now()
+          let cycles = 4000
+          for (let i = 0; i < cycles; i++) {
+            await service.saveYes('alice', { $userId: 'gcrood' })
+          }
+          let t1 = Date.now()
+          console.log('STRESS TEST: ' + (t1 - t0))
+          console.log('STRESS TEST AVG: ' + (t1 - t0) / cycles)
+
+          console.log('----METRICS----\n', gateway.metrics, '\n----  END   ---')
+        } catch (err) {
+          console.log(chalk.red('stress test ✘'))
+        }
+        console.log('++++  END STRESS TEST  ++++')
       }).catch(err => {
-        console.log(chalk.green('get bob response ✘'))
+        console.log(chalk.red('get bob response ✘'))
         console.log('err', err)
       })
     }).catch(err => {
-      console.log(chalk.green('got bob service API ✘'))
+      console.log(chalk.red('got bob service API ✘'))
       console.log(err)
     })
   }).catch(err => {
@@ -134,11 +150,11 @@ gateway.on('service:registered', (serviceName, serviceInfo) => {
   if (serviceName === 'ted') {
     console.log(chalk.green('ted service registered ✔'))
 
-    gateway.api.ted.saveYes('alice', { $userId: '200' }).then(response => {
+    gateway.api.ted.saveYes('alice', { $userId: 'gcrood' }).then(response => {
       console.log(chalk.green('get ted\'s saveYes response ✔'))
 
       try {
-        (response === 'Yes is saved dear alice or 200').should.be.true()
+        (response === 'Yes is saved dear alice or gcrood').should.be.true()
         console.log(chalk.green('ted\'s saveYes response ✔'))
       } catch (err) {
         console.log(chalk.red('ted\'s saveYes response ✘'))
@@ -151,11 +167,11 @@ gateway.on('service:registered', (serviceName, serviceInfo) => {
 
     gateway.api.ted.putYes({
       toWhome: 'alice'
-    }).then(response => {
+    }, { $userId: 'gcrood' }).then(response => {
       console.log(chalk.green('get ted\'s putYes response ✔'))
 
       try {
-        (response === 'Yes is in the hole dear alice or undefined').should.be.true()
+        (response === 'Yes is in the hole dear alice or gcrood').should.be.true()
         console.log(chalk.green('ted\'s putYes response ✔'))
       } catch (err) {
         console.log(chalk.red('ted\'s putYes response ✘'))
@@ -168,18 +184,18 @@ gateway.on('service:registered', (serviceName, serviceInfo) => {
 
     gateway.api.ted.sayYes({
       toWhome: 'alice'
-    }, { $userId: '200' }).then(response => {
+    }, { $userId: 'tcrood' }).then(response => {
       console.log(chalk.green('get ted response ✔'))
 
       try {
-        (response === 'Yes dear alice or 200').should.be.true()
+        (response === 'Yes dear alice or tcrood').should.be.true()
         console.log(chalk.green('ted\'s sayYes response ✔'))
       } catch (err) {
         console.log(chalk.red('ted\'s sayYes response ✘'))
         console.log(response)
       }
 
-      gateway.api.ted.tellNothing().then(response => {
+      gateway.api.ted.tellNothing({ $userId: 'tcrood' }).then(response => {
         console.log(chalk.green('get ted undefined response ✔'))
 
         try {

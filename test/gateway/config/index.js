@@ -7,6 +7,13 @@ module.exports = {
   discoveryServers: [],
   /* calling timeout for pub/sub mode */
   timeout: 500,
+  /* metrics configuration: no metrics if undefined */
+  metrics: {
+    /* number of points that triggers metrics push event */
+    pushTrigger: 100,
+    /* maw number of points to store locally */
+    maxPoints: 100
+  },
   /* PUB/SUB/KV connector */
   connector: {
     /* redis server connection */
