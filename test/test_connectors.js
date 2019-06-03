@@ -33,6 +33,20 @@ let onPEvent = (pattern, channel, info) => {
       console.log(chalk.red('[mam*ia] unsubscription ✘'))
       console.log(err)
     }
+
+    redisConnector.punsubscribe('mam*ia').then(info => {
+      try {
+        (info.patterns === 2 && info.currentPatternSubscriptions === 0).should.be.true()
+        console.log(chalk.green('[mam*ia] redondant unsubscription ✔'))
+      } catch (err) {
+        console.log(chalk.red('[mam*ia] redondant unsubscription ✘'))
+        console.log(err)
+      }
+    }).catch(err => {
+      console.log(chalk.red('[mam*ia] redondant unsubscription ✘'))
+      console.log(err)
+    })
+
   }).catch(err => {
     console.log(chalk.red('[mam*ia] unsubscription ✘'))
     console.log(err)

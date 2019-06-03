@@ -1,6 +1,5 @@
 #!/bin/sh
 
-export DEBUG=-removethis-iios:*
 #export DEBUG=iios:*
 docker-compose up > test-services.log 2>&1 &
 sleep 60

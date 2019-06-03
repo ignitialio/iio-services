@@ -48,6 +48,7 @@ bob._init().then(async () => {
     console.log(chalk.green('heartbeat subscription ✔'))
   } catch (err) {
     console.log(chalk.red('heartbeat subscription ✘'))
+    console.log(err)
   }
 
   bob._connector.keys().then(keys => {
