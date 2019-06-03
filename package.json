@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Ignitial.io microservices",
   "main": "index.js",
-  "repository": "git@gitlab.com:ignitial/iio-service.git",
+  "repository": "git@github.com:ignitialio/iio-services.git",
   "author": "Victor Andritoiu <devandrito@gmail.com>",
   "keywords": [
     "microservice",
