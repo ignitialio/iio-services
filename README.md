@@ -173,6 +173,8 @@ Options example:
     host: process.env.IIOS_SERVER_HOST,
     /* server port */
     port: process.env.IIOS_SERVER_PORT,
+    /* indicates that service is behind an HTTPS proxy */
+    https: false,
     /* path to statically serve (at least one asset for icons for example) */
     path: './dist'
   },
