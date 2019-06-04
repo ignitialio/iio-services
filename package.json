@@ -1,6 +1,6 @@
 {
   "name": "@ignitial/iio-services",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Ignitial.io microservices",
   "main": "index.js",
   "repository": "git@github.com:ignitialio/iio-services.git",
@@ -9,7 +9,11 @@
     "microservice",
     "service discovery",
     "api gateway",
-    "serverless"
+    "serverless",
+    "streaming",
+    "data pipes",
+    "micro-service",
+    "access control"
   ],
   "license": "MIT",
   "scripts": {

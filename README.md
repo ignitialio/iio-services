@@ -22,6 +22,7 @@ Main features:
 - RPC based services intercall (~ 5000 calls/sec on i7 8th generation - one core used)
 - HTTP backup services intercall (can work without KV store + pub/sub broker)
 - inter-services streaming (data pipes, etc.)
+- inter-services events
 - maps any service methods to any gateway with a given namespace
 - distributed Role Based Access Control
 - UI injection (if used in the IgnitialIO web app framework context)
@@ -70,6 +71,40 @@ class Bob extends Service {
 
 let bob = new Bob(config)
 bob._init().then(() => { }).catch(err => {})
+```
+
+### Inter-services events
+
+Subscriber side:  
+
+```javascript
+gateway._init().then(() => {  
+  // given event fro given service
+  gateway.on('iios:bob:event:coucou', data => {
+    console.log(data) // effective payload == data
+  })
+
+  // or any event from a given service
+  gateway.on('iios:bob:event', message => {
+    console.log(message.meta) // message meta information
+    console.log(message.payload) // effective payload == data
+  })
+
+  // or any event from any service
+  gateway.on('iios:event', data => {
+    console.log(message.meta) // message meta information
+    console.log(message.payload) // effective payload == data
+  })
+}).catch(err) {...}
+```
+
+Publisher side:
+
+```javascript
+let bob = new Bob(config)
+bob._init().then(() => {
+  bob._pushEvent('coucou', { toto: 'titi' })
+}).catch(err => {})
 ```
 
 ## Methods declaration

@@ -69,6 +69,54 @@ gateway._init().then(() => {
 
 if (!process.env.STREAMING) {
   if (config.pubsubRPC) {
+    gateway.on('iios:event', message => {
+      try {
+        (message.meta.service === 'bob' || message.meta.service === 'ted').should.be.true()
+        console.log(chalk.green('any push event from any ✔'))
+      } catch (err) {
+        console.log(chalk.red('any push event from any ✘'))
+        console.log(err)
+      }
+
+      try {
+        (message.payload.toto === 'titi').should.be.true()
+        console.log(chalk.green('any push event payload ✔'))
+      } catch (err) {
+        console.log(chalk.red('any push event payload ✘'))
+        console.log(err)
+      }
+    })
+
+    gateway.on('iios:bob:event', message => {
+      try {
+        (message.meta.service === 'bob').should.be.true()
+        console.log(chalk.green('any push event from bob ✔'))
+      } catch (err) {
+        console.log(chalk.red('any push event from bob ✘'))
+        console.log(err)
+      }
+    })
+
+    gateway.on('iios:bob:event:coucou', data => {
+      try {
+        (data.toto === 'titi').should.be.true()
+        console.log(chalk.green('push event payload ✔'))
+      } catch (err) {
+        console.log(chalk.red('push event payload ✘'))
+        console.log(err)
+      }
+    })
+
+    gateway.on('iios:ted:event:coucou', data => {
+      try {
+        (data.toto === 'titi').should.be.true()
+        console.log(chalk.green('push event payload ✔'))
+      } catch (err) {
+        console.log(chalk.red('push event payload ✘'))
+        console.log(err)
+      }
+    })
+
     gateway._waitForService('bob').then(serviceInfo => {
       try {
         (serviceInfo.name === 'bob').should.be.true()

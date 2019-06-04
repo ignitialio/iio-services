@@ -17,6 +17,8 @@ sleep(process.env.DELAYED).then(() => {
   bob._init().then(() => {
     console.log(chalk.green(process.env.SERVICE_NAME + ' service initialized ✔'))
 
+    bob._pushEvent('coucou', { toto: 'titi' })
+
     try {
       if (process.env.STREAMING) {
         let stream = bob._addStream('ofs')
