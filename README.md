@@ -145,9 +145,17 @@ Options example:
   connector: {
     /* redis server connection */
     redis: {
+      /* redis host ip or hostname */
       host: process.env.REDIS_HOST,
+      /* if redis sentinel enabled, master name */
+      master: process.env.REDIS_MASTER_NAME,
+      /* uses redis sentinel if defined */
+      sentinels: REDIS_SENTINELS,
+      /* redis port */
       port: 6379,
+      /* redis db number */
       db: 0,
+      /* ip family */
       ipFamily: 4
     }
   },

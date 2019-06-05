@@ -1,3 +1,13 @@
+let REDIS_SENTINELS
+
+if (process.env.REDIS_SENTINELS) {
+  REDIS_SENTINELS = []
+  let sentinels = process.env.REDIS_SENTINELS.split(',')
+  for (let s of sentinels) {
+    REDIS_SENTINELS.push({ host: s.split(':')[0], port: s.split(':')[1] })
+  }
+}
+
 module.exports = {
   /* service name */
   name: 'alice',
@@ -19,6 +29,8 @@ module.exports = {
     /* redis server connection */
     redis: {
       host: process.env.REDIS_HOST,
+      master: process.env.REDIS_MASTER_NAME,
+      sentinels: REDIS_SENTINELS, /* uses redis sentinel if defined */
       port: 6379,
       db: 0,
       ipFamily: 4
