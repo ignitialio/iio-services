@@ -145,6 +145,8 @@ Options example:
   connector: {
     /* redis server connection */
     redis: {
+      /* encoder to be used for packing/unpacking raw messages */
+      encoder: process.env.ENCODER || 'json',
       /* redis host ip or hostname */
       host: process.env.REDIS_HOST,
       /* if redis sentinel enabled, master name */
@@ -223,6 +225,18 @@ which means that role _admin_ can:
 to the service _bob_.
 
 ## Tests
+
+### Lint
+
+```bash
+npm run lint
+```
+
+### Prepare test image
+
+```bash
+npm run config:build
+```
 
 ### Access control
 

@@ -19,6 +19,7 @@ services:
     environment:
       - IIOS_SERVER_PORT=20991
       - PUBSUB_RPC=${PUBSUB_RPC}
+      - ENCODER=${ENCODER}
       - STREAMING=${STREAMING}
       - IIOS_SERVER_HOST=alice
       - IIOS_NAMESPACE=testings
@@ -36,6 +37,7 @@ services:
     environment:
       - SERVICE_NAME=bob
       - PUBSUB_RPC=${PUBSUB_RPC}
+      - ENCODER=${ENCODER}
       - STREAMING=${STREAMING}
       - IIOS_SERVER_PORT=20992
       - IIOS_SERVER_HOST=bob
@@ -55,6 +57,7 @@ services:
     environment:
       - SERVICE_NAME=ted
       - PUBSUB_RPC=${PUBSUB_RPC}
+      - ENCODER=${ENCODER}
       - STREAMING=${STREAMING}
       - IIOS_SERVER_PORT=20993
       - IIOS_SERVER_HOST=ted

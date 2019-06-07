@@ -1,6 +1,6 @@
 {
   "name": "@ignitial/iio-services",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Ignitial.io microservices",
   "main": "index.js",
   "repository": "git@github.com:ignitialio/iio-services.git",
@@ -25,11 +25,13 @@
     "test:service": "docker-compose up -d redis && export DEBUG=-removethis-iios:* && node test/test_service.js && docker-compose stop redis && docker-compose rm -f redis",
     "test:services": "test/test_services.sh",
     "test:services:http": "test/test_services_http.sh",
-    "test:streams": "test/test_streams.sh"
+    "test:streams": "test/test_streams.sh",
+    "test:services:bson": "test/test_bson.sh"
   },
   "dependencies": {
     "accesscontrol": "^2.2.1",
     "body-parser": "^1.18.3",
+    "bson": "^4.0.2",
     "connect": "^3.6.6",
     "connect-rest": "^3.0.29",
     "cpu-stats": "^1.0.0",

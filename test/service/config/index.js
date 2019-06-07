@@ -16,6 +16,8 @@ module.exports = {
   connector: {
     /* redis server connection */
     redis: {
+      /* encoder to be used for packing/unpacking raw messages */
+      encoder: process.env.ENCODER || 'json',
       host: process.env.REDIS_HOST,
       port: 6379,
       db: 0,

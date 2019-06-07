@@ -28,6 +28,8 @@ module.exports = {
   connector: {
     /* redis server connection */
     redis: {
+      /* encoder to be used for packing/unpacking raw messages */
+      encoder: process.env.ENCODER || 'json',
       host: process.env.REDIS_HOST,
       master: process.env.REDIS_MASTER_NAME,
       sentinels: REDIS_SENTINELS, /* uses redis sentinel if defined */
