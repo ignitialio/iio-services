@@ -25,7 +25,7 @@ services:
       - IIOS_NAMESPACE=testings
       - REDIS_HOST=redis
       - DEBUG=${DEBUG}
-    command: ["pm2-docker", "test/gateway/index.js"]
+    command: ["node", "test/gateway/index.js"]
 
   bob:
     image: ignitial/iios:latest
@@ -45,7 +45,7 @@ services:
       - REDIS_HOST=redis
       - DEBUG=${DEBUG}
       - DELAYED=2
-    command: ["pm2-docker", "test/service/index.js"]
+    command: ["node", "test/service/index.js"]
 
   ted:
     image: ignitial/iios:latest
@@ -65,7 +65,7 @@ services:
       - REDIS_HOST=redis
       - DEBUG=${DEBUG}
       - DELAYED=15
-    command: ["pm2-docker", "test/service/index.js", "15"]
+    command: ["node", "test/service/index.js", "15"]
 
 volumes:
   redis-data:
