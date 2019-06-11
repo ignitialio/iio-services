@@ -5,33 +5,33 @@ class Bob extends Service {
     super(options)
   }
 
-  sayYes({ toWhome = '' }, userId) {
+  sayYes({ toWhome = '' }, grants) {
     /* @_GET_ */
     return new Promise((resolve, reject) => {
-      resolve('Yes dear ' + toWhome + ' or ' + userId)
+      resolve('Yes dear ' + toWhome + ' or ' + grants.$userId)
     })
   }
 
-  saveYes(toWhome, userId) {
+  saveYes(toWhome, grants) {
     /* @_POST_ */
     return new Promise((resolve, reject) => {
-      resolve('Yes is saved dear ' + toWhome + ' or ' + userId)
+      resolve('Yes is saved dear ' + toWhome + ' or ' + grants.$userId)
     })
   }
 
-  putYes({ toWhome = '' }, userId) {
+  putYes({ toWhome = '' }, grants) {
     /* @_PUT_ */
     return new Promise((resolve, reject) => {
-      resolve('Yes is in the hole dear ' + toWhome + ' or ' + userId)
+      resolve('Yes is in the hole dear ' + toWhome + ' or ' + grants.$userId)
     })
   }
 
-  killYes(toWhome, userId) {
+  killYes(toWhome, grants) {
     /* @_DELETE_ */
     return new Promise((resolve, reject) => {
       resolve({
         answer: 'Yes is killed dear ' + toWhome,
-        userId: userId
+        userId: grants.$userId
       })
     })
   }

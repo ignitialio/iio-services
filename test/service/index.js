@@ -17,7 +17,9 @@ sleep(process.env.DELAYED).then(() => {
   bob._init().then(() => {
     console.log(chalk.green(process.env.SERVICE_NAME + ' service initialized ✔'))
 
-    bob._pushEvent('coucou', { toto: 'titi' })
+    bob._pushEvent('coucou', { toto: 'titi' }).catch(err => {
+      if (bob._options.pubsubRPC) console.log('connector not available')
+    })
 
     try {
       if (process.env.STREAMING) {
