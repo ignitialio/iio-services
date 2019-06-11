@@ -1,4 +1,4 @@
-# IgnitionIO Services (IIOS)
+# IgnitialIO Services (IIOS)
 
 > __WARNING !__
 >  
