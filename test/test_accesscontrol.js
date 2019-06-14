@@ -3,7 +3,7 @@ const chalk = require('chalk')
 
 const IIOSAccesControl = require('../lib/accesscontrol').IIOSAccesControl
 
-let ac = new IIOSAccesControl()
+let ac = new IIOSAccesControl({ namespace: process.env.IIOS_NAMESPACE || 'testings' })
 
 ac.init().then(async () => {
   console.log(chalk.green('acces control initialized ✔'))

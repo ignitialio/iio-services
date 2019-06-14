@@ -26,6 +26,25 @@ module.exports = {
   },
   /* access control: if present, acces control enabled */
   accesscontrol: {
+    /* grants for current service: auto-fill */
+    /* grants: {
+      admin: {
+        'create:any': [ '*' ],
+        'read:any': [ '*' ],
+        'update:any': [ '*' ],
+        'delete:any': [ '*' ]
+      },
+      user: {
+        'read:any': [ '*' ],
+        'update:any': [ '*' ],
+        'delete:any': [ '*' ]
+      },
+      anonymous: {
+        'read:any': [ '*' ]
+      }
+    }, */
+    /* access control namespace */
+    namespace: process.env.IIOS_NAMESPACE || 'iios',
     /* connector configuration: optional, default same as global connector, but
        on DB 1 */
     connector: {

@@ -16,7 +16,7 @@ module.exports = {
   /* discovery servers (gateways) when HTTP only */
   discoveryServers: [],
   /* calling timeout for pub/sub mode */
-  timeout: 500,
+  timeout: 3000,
   /* metrics configuration: no metrics if undefined */
   metrics: {
     /* number of points that triggers metrics push event */

@@ -22,7 +22,7 @@ services:
       - ENCODER=${ENCODER}
       - STREAMING=${STREAMING}
       - IIOS_SERVER_HOST=alice
-      - IIOS_NAMESPACE=testings
+      - IIOS_NAMESPACE=${IIOS_NAMESPACE}
       - REDIS_HOST=redis
       - DEBUG=${DEBUG}
     command: ["node", "test/gateway/index.js"]
@@ -41,7 +41,7 @@ services:
       - STREAMING=${STREAMING}
       - IIOS_SERVER_PORT=20992
       - IIOS_SERVER_HOST=bob
-      - IIOS_NAMESPACE=testings
+      - IIOS_NAMESPACE=${IIOS_NAMESPACE}
       - REDIS_HOST=redis
       - DEBUG=${DEBUG}
       - DELAYED=2
@@ -61,7 +61,7 @@ services:
       - STREAMING=${STREAMING}
       - IIOS_SERVER_PORT=20993
       - IIOS_SERVER_HOST=ted
-      - IIOS_NAMESPACE=testings
+      - IIOS_NAMESPACE=${IIOS_NAMESPACE}
       - REDIS_HOST=redis
       - DEBUG=${DEBUG}
       - DELAYED=15

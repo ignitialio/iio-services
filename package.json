@@ -1,6 +1,6 @@
 {
   "name": "@ignitial/iio-services",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Ignitial.io microservices",
   "main": "index.js",
   "repository": "git@github.com:ignitialio/iio-services.git",
@@ -19,10 +19,11 @@
   "scripts": {
     "lint": "eslint --ext .js lib",
     "config:build": "test/utils/build.sh",
-    "config:populate": "docker-compose up -d redis && node test/utils/populate.js && docker-compose stop redis && docker-compose rm -f redis",
-    "test:accesscontrol": "docker-compose up -d redis && node test/test_accesscontrol.js && docker-compose stop redis && docker-compose rm -f redis",
-    "test:connectors": "docker-compose up -d redis && node test/test_connectors.js",
-    "test:service": "docker-compose up -d redis && export DEBUG=-removethis-iios:* && node test/test_service.js && docker-compose stop redis && docker-compose rm -f redis",
+    "config:populate": "test/utils/populate.sh",
+    "test:accesscontrol": "test/test_accesscontrol.sh",
+    "test:connectors": "test/test_connectors.sh",
+    "test:service": "test/test_service.sh",
+    "test:accesscontrol:autofill": "test/test_accesscontrol_autofill.sh",
     "test:services": "test/test_services.sh",
     "test:services:http": "test/test_services_http.sh",
     "test:streams": "test/test_streams.sh",
