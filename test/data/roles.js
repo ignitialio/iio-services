@@ -1,11 +1,22 @@
 module.exports = {
-  admin: {
-    'default': {
+  __privileged__: {
+    'dlake:users': {
       'create:any': [ '*' ],
       'read:any': [ '*' ],
       'update:any': [ '*' ],
       'delete:any': [ '*' ]
     },
+    'bob': {
+      'create:any': [ '*' ],
+      'read:any': [ '*' ],
+      'update:any': [ '*' ],
+      'delete:any': [ '*' ]
+    },
+    'ted': {
+      'create:any': [ '*' ]
+    }
+  },
+  admin: {
     'dlake:users': {
       'create:any': [ '*' ],
       'read:any': [ '*' ],
@@ -26,9 +37,6 @@ module.exports = {
     }
   },
   user: {
-    'default': {
-      'read:any': [ '*' ]
-    },
     'dlake:users': {
       'read:any': [ '*' ],
       'update:own': [ '*' ],
@@ -47,9 +55,6 @@ module.exports = {
     }
   },
   anonymous: {
-    'default': {
-      'read:any': [ '*' ]
-    },
     'dlake:users': {
       'read:any': [ '_id', 'role', 'firstname', 'lastname', 'avatar' ]
     },

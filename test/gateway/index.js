@@ -15,7 +15,7 @@ gateway._init().then(() => {
 
   if (process.env.STREAMING) {
     let fstream = gateway._addStream('ifs', 'ofs')
-    let ofs = fs.createWriteStream('./test-copy.log')
+    let ofs = fs.createWriteStream(path.join('test/logs/', './test-copy.log'))
     fstream.pipe(ofs)
 
     fstream.on('error', err => {
@@ -26,7 +26,7 @@ gateway._init().then(() => {
       console.log(chalk.green('stream piping end ✔'))
 
       let f1 = fs.readFileSync(path.join(__dirname, '../service/bob.service.js'), 'utf8')
-      let f2 = fs.readFileSync('./test-copy.log', 'utf8')
+      let f2 = fs.readFileSync(path.join('test/logs/', './test-copy.log'), 'utf8')
 
       try {
         (f1 === f2).should.be.true()
@@ -148,12 +148,20 @@ if (!process.env.STREAMING) {
 
           try {
             (!!err.toString().match('access not granted')).should.be.true()
-            console.log(chalk.green('bob\'s saveYes response ✔'))
+            console.log(chalk.green('bob\'s saveYes not granted response ✔'))
             okNominalCounter++
           } catch (err) {
-            console.log(chalk.red('bob\'s saveYes response ✘'))
+            console.log(chalk.red('bob\'s saveYes not granted response ✘'))
             console.log(err)
           }
+        })
+
+        // privileged mode
+        service.saveYes('alice', { $userId: '200', $privileged: true }).then(response => {
+          console.log(chalk.green('privileged saveYes for bob access not granted response ✔'))
+          okNominalCounter++
+        }).catch(err => {
+          console.log(chalk.red('privileged saveYes for bob access not granted response ✘'))
         })
 
         service.saveYes('alice', { $userId: 'gcrood' }).then(response => {
@@ -313,6 +321,33 @@ if (!process.env.STREAMING) {
         console.log('err', err)
       })
 
+      // privileged mode
+      gateway.api.ted.saveYes('alice', { $userId: '200', $privileged: true }).then(response => {
+        console.log(chalk.red('privileded saveYes for ted access not granted response ✘'))
+      }).catch(err => {
+        console.log(chalk.green('privileded saveYes for ted access not granted response ✔'))
+        okNominalCounter++
+
+        try {
+          (!!err.toString().match('access not granted')).should.be.true()
+          console.log(chalk.green('ted\'s privileged saveYes not granted response ✔'))
+          okNominalCounter++
+        } catch (err) {
+          console.log(chalk.red('ted\'s privileged saveYes not granted response ✘'))
+          console.log(err)
+        }
+      })
+
+      // privileged mode
+      gateway.api.ted.putYes({
+        toWhome: 'alice'
+      }, { $userId: '200', $privileged: true }).then(response => {
+        console.log(chalk.green('privileded putYes for ted access not granted response ✔'))
+        okNominalCounter++
+      }).catch(err => {
+        console.log(chalk.red('privileded putYes for ted access not granted response ✘'))
+      })
+
       gateway.api.ted.sayYes({
         toWhome: 'alice'
       }, { $userId: 'tcrood' }).then(response => {
@@ -354,7 +389,7 @@ if (!process.env.STREAMING) {
 
             console.log('----METRICS----\n', gateway.metrics, '\n----  END   ---')
 
-            console.log('TOTAL OK= ' + okNominalCounter + '/30')
+            console.log('TOTAL OK= ' + okNominalCounter + '/10')
           } catch (err) {
             console.log(chalk.red('stress test ✘'))
             console.log(err)

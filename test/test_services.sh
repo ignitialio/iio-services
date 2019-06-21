@@ -2,7 +2,7 @@
 
 #export DEBUG=iios:*
 export IIOS_NAMESPACE=testings
-docker-compose up > test-services.log 2>&1 &
+docker-compose up > test/logs/test-services.log 2>&1 &
 sleep 60
 docker-compose stop alice bob ted
 docker-compose rm -f alice bob ted
