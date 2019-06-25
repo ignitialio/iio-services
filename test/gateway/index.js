@@ -323,9 +323,9 @@ if (!process.env.STREAMING) {
 
       // privileged mode
       gateway.api.ted.saveYes('alice', { $userId: '200', $privileged: true }).then(response => {
-        console.log(chalk.red('privileded saveYes for ted access not granted response ✘'))
+        console.log(chalk.red('privileged saveYes for ted access not granted response ✘'))
       }).catch(err => {
-        console.log(chalk.green('privileded saveYes for ted access not granted response ✔'))
+        console.log(chalk.green('privileged saveYes for ted access not granted response ✔'))
         okNominalCounter++
 
         try {
@@ -342,10 +342,10 @@ if (!process.env.STREAMING) {
       gateway.api.ted.putYes({
         toWhome: 'alice'
       }, { $userId: '200', $privileged: true }).then(response => {
-        console.log(chalk.green('privileded putYes for ted access not granted response ✔'))
+        console.log(chalk.green('privileged putYes for ted access not granted response ✔'))
         okNominalCounter++
       }).catch(err => {
-        console.log(chalk.red('privileded putYes for ted access not granted response ✘'))
+        console.log(chalk.red('privileged putYes for ted access not granted response ✘'))
       })
 
       gateway.api.ted.sayYes({
@@ -389,7 +389,12 @@ if (!process.env.STREAMING) {
 
             console.log('----METRICS----\n', gateway.metrics, '\n----  END   ---')
 
-            console.log('TOTAL OK= ' + okNominalCounter + '/10')
+            let total = 12
+            if (config.pubsubRPC) {
+              total = 34
+            }
+
+            console.log('TOTAL OK= ' + okNominalCounter + '/' + total)
           } catch (err) {
             console.log(chalk.red('stress test ✘'))
             console.log(err)

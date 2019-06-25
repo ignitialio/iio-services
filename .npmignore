@@ -1,0 +1,7 @@
+.git/
+.eslint*
+.gitignore
+node_modules/
+test/
+docker-compose.yml
+assets/
