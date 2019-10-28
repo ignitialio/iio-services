@@ -1,6 +1,6 @@
 {
   "name": "@ignitial/iio-services",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "Ignitial.io microservices",
   "main": "index.js",
   "repository": "git@github.com:ignitialio/iio-services.git",
