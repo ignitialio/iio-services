@@ -44,8 +44,28 @@ ac.init().then(async () => {
     (permission.granted).should.be.true()
     console.log(chalk.green('anonymous on ted own permission ✔'))
   } catch (err) {
-    console.log(chalk.red('tcrood on  ted own  permission ✘'))
+    console.log(chalk.red('tcrood on ted own  permission ✘'))
     console.log(permission)
+  }
+
+  let roles = await ac.getRoles()
+
+  try {
+    roles.should.containDeep([ '__role:testings:user' ])
+    console.log(chalk.green('get roles ✔'))
+  } catch (err) {
+    console.log(chalk.red('get roles ✘'))
+    console.log(roles)
+  }
+
+  let fullConfig = await ac.getRolesAndGrants()
+
+  try {
+    fullConfig.admin.bob['read:any'].should.containDeep([ '*' ])
+    console.log(chalk.green('get full config ✔'))
+  } catch (err) {
+    console.log(chalk.red('get full config ✘'))
+    console.log(fullConfig)
   }
 
   await ac.destroy()
