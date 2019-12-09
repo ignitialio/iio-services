@@ -1,3 +1,5 @@
+const chalk = require('chalk')
+
 const Service = require('../../').Service
 
 class Bob extends Service {
@@ -9,6 +11,9 @@ class Bob extends Service {
     /* @_GET_ */
     return new Promise((resolve, reject) => {
       resolve('Yes dear ' + toWhome + ' or ' + grants.$userId)
+      if (process.env.BINDING) {
+        console.log(chalk.green('binding worked ✔'))
+      }
     })
   }
 
@@ -46,6 +51,12 @@ class Bob extends Service {
   tellUndefined() {
     return new Promise((resolve, reject) => {
       resolve()
+    })
+  }
+
+  generate() {
+    return new Promise((resolve, reject) => {
+      resolve(42)
     })
   }
 }

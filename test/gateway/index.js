@@ -9,6 +9,26 @@ const config = require('./config')
 var okNominalCounter = 0
 
 let gateway = new Gateway(config)
+gateway.transform = val => {
+  return new Promise((resolve, reject) => {
+    resolve(13 * val)
+  })
+}
+
+gateway.transform2 = val => {
+  return new Promise((resolve, reject) => {
+    resolve(2 * val)
+
+    try {
+      (val === 42).should.be.true()
+      console.log(chalk.green('calling transform from generate binding ✔'))
+    } catch (err) {
+      console.log(chalk.red('calling transform from generate binding ✘'))
+      console.log('---------------VAL', val)
+    }
+  })
+}
+
 gateway._init().then(() => {
   console.log(chalk.green('gateway initialized ✔'))
   okNominalCounter++
@@ -64,13 +84,122 @@ gateway._init().then(() => {
         console.log(err)
       }
     })
+  } else if (process.env.BINDING) {
+    gateway._waitForServiceAPI('bob').then(async service => {
+      try {
+        await service.setMethodAsOutput('generate',
+          { $userId: '200', $privileged: true })
+        await gateway.bindEventToMethod('iios:bob:event:output:generate', 'transform2',
+          { $userId: '200', $privileged: true })
+
+        console.log(chalk.green('setting output and binding event ✔'))
+
+        let generatedResult = await service.generate({ $userId: '200', $privileged: true })
+
+        try {
+          (generatedResult === 42).should.be.true()
+          console.log(chalk.green('calling generate ✔'))
+        } catch (err) {
+          console.log(chalk.red('calling generate ✘'))
+          console.log(err)
+        }
+
+        gateway._waitForService('toto', 1000).catch(async err => {  
+          await gateway.unbindEventFromMethod('iios:bob:event:output:generate', 'transform2',
+            { $userId: '200', $privileged: true })
+          await service.unsetMethodAsOutput('generate',
+            { $userId: '200', $privileged: true })
+
+          console.log(chalk.green('unbinding event ✔'))
+        })
+      } catch (err) {
+        console.log(chalk.red('setting output and binding/unbinding event ✘'))
+        console.log(err)
+      }
+
+      gateway.bindMethods('transform', 'bob', 'generate',
+        { $userId: '200', $privileged: true }).then(() => {
+        console.log(chalk.green('binding a method to a remote one ✔'))
+        gateway.callEventuallyBoundMethod('transform',
+          { $userId: '200', $privileged: true }).then(result => {
+          console.log(chalk.green('calling an eventually bound method ✔'))
+
+          try {
+            (result === 546).should.be.true()
+            console.log(chalk.green('calling an eventually bound method result ✔'))
+          } catch (err) {
+            console.log(chalk.red('calling an eventually bound method result ✘'))
+            console.log(err)
+          }
+
+          gateway.unbindMethods('transform', 'bob', 'generate',
+            { $userId: '200', $privileged: true }).then(() => {
+              console.log(chalk.green('unbinding a method from a remote one ✔'))
+
+              service.callEventuallyBoundMethod('generate',
+                { $userId: '200', $privileged: true }).then(result => {
+                console.log(chalk.green('calling an eventually bound method from service ✔'))
+
+                try {
+                  (result === 42).should.be.true()
+                  console.log(chalk.green('calling an eventually bound method from service result ✔'))
+                } catch (err) {
+                  console.log(chalk.red('calling an eventually bound method from service result ✘'))
+                  console.log(err)
+                }
+              }).catch(err => {
+                console.log(chalk.red('calling an eventually bound method from service ✘'))
+                console.log(err)
+              })
+            }).catch(err => {
+              console.log(chalk.red('unbinding a method from a remote one ✘'))
+              console.log(err)
+            })
+        }).catch(err => {
+          console.log(chalk.red('calling an eventually bound method ✘'))
+          console.log(err)
+        })
+      }).catch(err => {
+        console.log(chalk.red('binding a method to a remote one ✘'))
+        console.log(err)
+      })
+
+      service.bindServiceEventToMethod(gateway._name, 'cocorico', 'sayYes',
+        { $userId: '200', $privileged: true }).then(() => {
+        console.log(chalk.green('binding an event remotely ✔'))
+        gateway._pushEvent('cocorico', { toWhome: 'titi' },
+          { $userId: '200', $privileged: true }).then(() => {
+          service.unbindServiceEventFromMethod(gateway._name, 'cocorico',
+            'sayYes', { $userId: '200', $privileged: true }).then(() => {
+            console.log(chalk.green('unbinding an event remotely ✔'))
+            gateway._pushEvent('cocorico', { toWhome: 'titi' },
+              { $userId: '200', $privileged: true }).catch(err => {
+              console.log(chalk.red('pushing an event ✘'))
+              console.log(err)
+            })
+          }).catch(err => {
+            console.log(chalk.red('unbinding an event remotely ✘'))
+            console.log(err)
+          })
+        }).catch(err => {
+          console.log(chalk.red('pushing an event ✘'))
+          console.log(err)
+        })
+      }).catch(err => {
+        console.log(chalk.red('pushing an event ✘'))
+        console.log(err)
+      })
+    }).catch(err => {
+      console.log(chalk.red('binding an event remotely ✘'))
+      console.log(err)
+    })
   }
 }).catch(err => {
   console.log(chalk.red('gateway initialized ✘'))
   console.log(err)
 })
 
-if (!process.env.STREAMING) {
+if (!process.env.STREAMING && !process.env.BINDING) {
   if (config.pubsubRPC) {
     gateway.on('iios:event', message => {
       try {

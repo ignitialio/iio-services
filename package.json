@@ -1,6 +1,6 @@
 {
   "name": "@ignitial/iio-services",
-  "version": "2.2.13",
+  "version": "2.3.0",
   "description": "Ignitial.io microservices",
   "main": "index.js",
   "repository": "git@github.com:ignitialio/iio-services.git",
@@ -27,6 +27,7 @@
     "test:services": "test/test_services.sh",
     "test:services:http": "test/test_services_http.sh",
     "test:streams": "test/test_streams.sh",
+    "test:binding": "test/test_binding.sh",
     "test:services:bson": "test/test_bson.sh"
   },
   "dependencies": {

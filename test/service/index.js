@@ -47,7 +47,7 @@ sleep(process.env.DELAYED).then(() => {
         rstream.push('\u0000')
       }
     } catch (err) {
-      console.log('-------------------------------+ +', err)
+      console.log('----------------------------', err)
     }
   }).catch(err => console.log(chalk.red(process.env.SERVICE_NAME + ' service initialized ✘')))
 })

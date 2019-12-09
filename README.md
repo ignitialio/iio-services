@@ -26,6 +26,7 @@ Main features:
 - maps any service methods to any gateway with a given namespace
 - distributed Role Based Access Control
 - UI injection (if used in the IgnitialIO web app framework context)
+- workflow ready with inter-services functions, events and stream binding
 
 ## Get started
 
