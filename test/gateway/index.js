@@ -87,6 +87,32 @@ gateway._init().then(() => {
   } else if (process.env.BINDING) {
     gateway._waitForServiceAPI('bob').then(async service => {
       try {
+        await service.presetMethodArgs('parametricGenerate', [ 100 ],
+          { $userId: '200', $privileged: true })
+
+        console.log(chalk.green('preset set ✔'))
+      } catch (err) {
+        console.log(chalk.red('preset set ✘'))
+      }
+
+      try {
+        var pres = await service.callEventuallyBoundMethod('parametricGenerate',
+          { $userId: '200', $privileged: true })
+
+        try {
+          (pres === 4200).should.be.true()
+
+          console.log(chalk.green('result with args preset ✔'))
+        } catch (err) {
+          console.log(chalk.red('result with args preset ✘'))
+        }
+
+        console.log(chalk.green('call with args preset ✔'))
+      } catch (err) {
+        console.log(chalk.red('call with args preset ✘'))
+      }
+
+      try {
         await service.setMethodAsOutput('generate',
           { $userId: '200', $privileged: true })
         await gateway.bindEventToMethod('iios:bob:event:output:generate', 'transform2',
@@ -104,7 +130,7 @@ gateway._init().then(() => {
           console.log(err)
         }
 
-        gateway._waitForService('toto', 1000).catch(async err => {  
+        gateway._waitForService('toto', 1000).catch(async err => {
           await gateway.unbindEventFromMethod('iios:bob:event:output:generate', 'transform2',
             { $userId: '200', $privileged: true })
           await service.unsetMethodAsOutput('generate',

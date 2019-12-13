@@ -59,6 +59,12 @@ class Bob extends Service {
       resolve(42)
     })
   }
+
+  parametricGenerate(val) {
+    return new Promise((resolve, reject) => {
+      resolve(42 * val)
+    })
+  }
 }
 
 module.exports = Bob
