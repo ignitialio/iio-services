@@ -18,7 +18,7 @@ sleep(process.env.DELAYED).then(() => {
     console.log(chalk.green(process.env.SERVICE_NAME + ' service initialized ✔'))
 
     bob._pushEvent('coucou', { toto: 'titi' }).catch(err => {
-      if (bob._options.pubsubRPC) console.log('connector not available')
+      if (bob._options.kvStoreMode) console.log('connector not available')
     })
 
     try {

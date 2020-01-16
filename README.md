@@ -130,7 +130,7 @@ Options example:
   /* service name */
   name: 'alice',
   /* eventually disables pub/sub calling mechanism in order to use only HTTP */
-  pubsubRPC: process.env.PUBSUB_RPC,
+  kvStoreMode: process.env.KV_STORE_MODE,
   /* discovery servers (gateways) when HTTP only */
   discoveryServers: [],
   /* calling timeout for pub/sub mode */
@@ -252,10 +252,16 @@ to the service _bob_.
 npm run lint
 ```
 
-### Prepare test image
+### Prepare test image (mandatory)
 
 ```bash
 npm run config:build
+```
+
+### Prepare users and access control data (mandatory)
+
+```bash
+npm run config:populate
 ```
 
 ### Access control

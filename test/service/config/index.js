@@ -1,8 +1,10 @@
 module.exports = {
   /* service name */
   name: process.env.SERVICE_NAME,
-  /* eventually disables pub/sub calling mechanism in order to use only HTTP */
-  pubsubRPC: process.env.PUBSUB_RPC,
+  /* eventually only use HTTP (degraded mode), so no push events */
+  kvStoreMode: process.env.KV_STORE_MODE,
+  /* uses HTTP for RPC calls, instead of pub/sub: default for ^3.0.0  */
+  httpRPC: process.env.HTTP_RPC,
   /* discovery servers (gateways) when HTTP only */
   discoveryServers: [
     {
@@ -66,7 +68,9 @@ module.exports = {
     /* server port */
     port: process.env.IIOS_SERVER_PORT,
     /* path to statically serve (at least one asset for icons for example) */
-    path: './dist'
+    path: './dist',
+    /* log level for http requests */
+    restLogLevel: 'error'
   },
   /* options published through discovery mechanism */
   publicOptions: {

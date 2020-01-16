@@ -18,7 +18,7 @@ services:
       - ${PWD}:/opt/svc
     environment:
       - IIOS_SERVER_PORT=20991
-      - PUBSUB_RPC=${PUBSUB_RPC}
+      - KV_STORE_MODE=${KV_STORE_MODE}
       - ENCODER=${ENCODER}
       - BINDING=${BINDING}
       - STREAMING=${STREAMING}
@@ -37,7 +37,7 @@ services:
       - ${PWD}:/opt/svc
     environment:
       - SERVICE_NAME=bob
-      - PUBSUB_RPC=${PUBSUB_RPC}
+      - KV_STORE_MODE=${KV_STORE_MODE}
       - ENCODER=${ENCODER}
       - BINDING=${BINDING}
       - STREAMING=${STREAMING}
@@ -59,7 +59,7 @@ services:
       - ${PWD}:/opt/svc
     environment:
       - SERVICE_NAME=ted
-      - PUBSUB_RPC=${PUBSUB_RPC}
+      - KV_STORE_MODE=${KV_STORE_MODE}
       - ENCODER=${ENCODER}
       - BINDING=${BINDING}
       - STREAMING=${STREAMING}

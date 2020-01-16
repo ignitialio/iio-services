@@ -11,8 +11,10 @@ if (process.env.REDIS_SENTINELS) {
 module.exports = {
   /* service name */
   name: 'alice',
-  /* eventually disables pub/sub calling mechanism in order to use only HTTP */
-  pubsubRPC: process.env.PUBSUB_RPC,
+  /* eventually only use HTTP (degraded mode), so no push events */
+  kvStoreMode: process.env.KV_STORE_MODE,
+  /* uses HTTP for RPC calls, instead of pub/sub: default for ^3.0.0  */
+  httpRPC: process.env.HTTP_RPC,
   /* discovery servers (gateways) when HTTP only */
   discoveryServers: [],
   /* calling timeout for pub/sub mode */
