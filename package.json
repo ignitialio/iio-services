@@ -1,6 +1,6 @@
 {
   "name": "@ignitial/iio-services",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "description": "Ignitial.io microservices",
   "main": "index.js",
   "repository": "git@github.com:ignitialio/iio-services.git",
@@ -33,20 +33,20 @@
   "dependencies": {
     "accesscontrol": "^2.2.1",
     "body-parser": "^1.18.3",
-    "bson": "^4.0.2",
+    "bson": "^4.1.0",
     "connect": "^3.6.6",
-    "connect-rest": "^3.0.29",
+    "connect-rest": "^3.0.33",
     "cpu-stats": "^1.0.0",
     "debug": "^4.1.1",
     "got": "^9.6.0",
-    "ioredis": "^4.14.1",
+    "ioredis": "^4.17.3",
     "serve-static": "^1.13.2"
   },
   "devDependencies": {
     "chalk": "^2.4.2",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^9.2.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
